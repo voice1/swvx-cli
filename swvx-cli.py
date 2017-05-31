@@ -29,6 +29,29 @@ How we use this information:
 This information is only collected to help us understand how often the script is being used, and what the most
 common API calls are that are being made. We hope to use this information in the future to create useful tools.
 
+
+MIT License
+
+Copyright (c) [year] [fullname]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 """
 __version__ = '0.0.1'
 __author__ = 'VOICE1 LLC <info@voice1-dot-me>'
@@ -53,7 +76,7 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
                     
 try:
-    from pyswitchvox.client import Client, ExtendAPIError, requests
+    from pyswitchvox.client import Client, requests, ExtendAPIError
 except ImportError as e:
     error_message = "Can not import the pySwitchvox package.\n" \
     "Try: pip install pyswitchvox, or visit https://github.com/digium/pyswitchvox"
@@ -61,9 +84,13 @@ except ImportError as e:
     logger.critical(error_message)
     sys.exit(error_message)
 
-
-logger.debug("Creating switchvox object")
-switchvox = Client(address=ADDRESS, username=USERNAME, password=PASSWORD, timeout=TIMEOUT)
+try:
+    logger.debug("Creating switchvox object")
+    switchvox = Client(address=ADDRESS, username=USERNAME, password=PASSWORD, timeout=TIMEOUT)
+except Exception as e:
+    logger.error("The following error occured: {}".format(e))
+    sys.exit(1)
+    
 
 def analytics(method, endpoint='collect'):
     """Measurement Protocol"""
@@ -113,7 +140,10 @@ if __name__ == '__main__':
     try:
         exec(command)
     except ExtendAPIError as e:
-        print(str(e))
+        logger.critical("API Error: {}".format(e))
+        sys.exit(1)        
+    except Exception as e:
+        logger.error("The following error occured: {}".format(e))
         
     data = json.dumps(result, indent=4)
     logger.info(data)
