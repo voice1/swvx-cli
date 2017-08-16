@@ -15,10 +15,10 @@ Logging by default is set to INFO, change it as needed.
 ## Usage:
 Simply provide the API method you wish to use, followed by any parameters. Parameters should be wrapped in double quotes (")
 
-    ./swvx-cli.py <api method> ["parameters"]
+    ./swvx-cli.py <api method> [parameters=value]
     e.g.: 
     ./swvx-cli.py switchvox.extensions.search
-    ./swvx-cli.py switchvox.extensions.getInfo "extensions=[899]"
+    ./swvx-cli.py switchvox.extensions.getInfo extensions=[899]
 
 ## Testing
 Runing swvx-cli.py with no paramerters will by default execute the `switchvox.info.getList` method.
@@ -54,7 +54,7 @@ Runing swvx-cli.py with no paramerters will by default execute the `switchvox.in
 
 
 ## Use case
-This script was created to help rapidly test API calls to Switchvox system. It does very little error checking and was designed to use a little addon modules as possible. 
+This script was created to help rapidly test API calls to Switchvox system. It does very little error checking and was designed to use as few addon modules as possible. 
 
 ## Feedback
 Your feedback is welcome, please use the issue tracker to report a bug or issues you might have.
