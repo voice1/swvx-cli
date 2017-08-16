@@ -56,5 +56,8 @@ Runing swvx-cli.py with no paramerters will by default execute the `switchvox.in
 ## Use case
 This script was created to help rapidly test API calls to Switchvox system. It does very little error checking and was designed to use as few addon modules as possible. 
 
+## Logging
+All commands executed are logged to swvx-cli.log, along with the result from Switchvox. This allows you to easilyt review your testing history and the results.
+
 ## Feedback
 Your feedback is welcome, please use the issue tracker to report a bug or issues you might have.
