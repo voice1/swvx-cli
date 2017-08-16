@@ -92,42 +92,22 @@ except Exception as e:
     sys.exit(1)
     
 
-def analytics(method, endpoint='collect'):
-    """Measurement Protocol"""
-    try:
-        ipinfo = requests.get('http://ipinfo.io', timeout=TIMEOUT).json()
-        logger.info("Captured public IP info: {}".format(ipinfo))
-    except:
-        ipinfo = {'ip': 'N/A'}
-        
-    payload = {
-        'v': '1',                    # Version.
-        'tid': 'UA-62762706-1',      # Tracking ID / Property ID.
-        'cid': ipinfo.get('ip'),     # Anonymous Client ID. 
-        't': 'event',                # Hit Type.
-        'swvx_method': method,       # Switchvox method being documented.        
-    }
-
-    try:
-        logger.info("Event Analytics: {}".format(payload))
-        response = requests.post('http://www.google-analytics.com/' + endpoint, payload, timeout=TIMEOUT)
-    except:
-        return
-    return response
-
-
 if __name__ == '__main__':
     logger.debug("argv:", sys.argv)
     method = "switchvox.info.getList"
     param = ""
     result = None
+        
     try:
         method = sys.argv[1]
     except:
         logger.warning("No method provided. Using default.")
         
     try:
-        param = sys.argv[2]
+        param = []
+        for opt in sys.argv[2:]:
+            param.append(opt)
+        param = ", ".join(param)
     except:
         logger.warning("No parameters provided.")
     
@@ -149,8 +129,5 @@ if __name__ == '__main__':
     logger.info(data)
 
     print(data)
-    
-    if ANALYTICS:
-        analytics(method)
     
     logger.info("Done.")
