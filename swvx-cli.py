@@ -63,9 +63,6 @@ PASSWORD = "admin"
 ADDRESS = "SWITCHVOX.IP.ADDRESS"
 TIMEOUT = (15, 15)
 
-# Please consider leaving this set to true.
-ANALYTICS = True
-
 import sys
 import json
 import logging
